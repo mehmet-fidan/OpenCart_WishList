@@ -1,6 +1,6 @@
 package pages;
 
-import io.cucumber.java.AfterAll;
+import io.cucumber.java.*;
 import utils.Driver;
 
 public class Hook {

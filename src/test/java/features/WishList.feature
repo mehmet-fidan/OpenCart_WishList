@@ -13,15 +13,18 @@ Feature: WishList
     And user clicks logout at rightside
 
 
-  Scenario: Add product to Wish List two
+  Scenario Outline: Add product to Wish List two
 
     Given user is at the login page
     When user clicks store logo
     Then user scroll into featured section
     And user clicks button for adding product to wishlist
     And user clicks on the wish list link in the displayed success message
-    And user enters "ZeydinToprak@hotmail.com" and "123456" to login
+    And user enters "<username>" and "<password>" to login
 
+    Examples:
+      | username | password                 |
+      | 123456   | ZeydinToprak@hotmail.com |
 
 
   Scenario: Hover on desktop menu
@@ -33,7 +36,19 @@ Feature: WishList
     And user clicks button for adding product to wishlist three
     And user clicks on the wish list link in the displayed success message
 
+    Then close browser
 
+Scenario: adding a product to 'Wish List' page from the Search Results page
+
+  Given user is at the homepage
+  When user enters product name in the search field
+  And user clicks on search icon
+  And user clicks on Add to Wish List in the Search Results Page
+  And user clicks on the wish list link in the displayed success message
+  And user enters "ZeydinToprak@hotmail.com" and "123456" to login
+  And user checks product availability in wishlist
+
+  Then close browser
 
 
 

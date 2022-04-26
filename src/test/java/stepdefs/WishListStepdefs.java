@@ -1,8 +1,6 @@
 package stepdefs;
 
-import io.cucumber.java.After;
-import io.cucumber.java.AfterAll;
-import io.cucumber.java.AfterStep;
+import io.cucumber.datatable.DataTable;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -10,10 +8,13 @@ import io.cucumber.java.en.When;
 import org.openqa.selenium.interactions.Action;
 import org.openqa.selenium.interactions.Actions;
 import org.testng.Assert;
-import org.testng.annotations.AfterSuite;
 import pages.WishListPage;
 import utils.Driver;
 import utils.ParentClass;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public class WishListStepdefs extends ParentClass {
 
@@ -50,8 +51,10 @@ public class WishListStepdefs extends ParentClass {
     @And("user clicks on the wish list link in the displayed success message")
     public void userClicksOnTheWishListLinkInTheDisplayedSuccessMessage() {
         System.out.println(productN);
+        sleep(2000);
         clickTo(wishLP.eTextCheck);
     }
+
     @And("user enters {string} and {string} to login")
     public void userEntersAndToLogin(String email, String password) {
         sendKeysTo(wishLP.eEmil, email);
@@ -62,7 +65,7 @@ public class WishListStepdefs extends ParentClass {
 
     @And("user checks product availability in wishlist")
     public void userChecksProductAvailabilityInWishlist() {
-        Assert.assertEquals(wishLP.eProductName.getText(), productN,"not same");
+        Assert.assertEquals(wishLP.eProductName.getText(), productN, "not same");
 
     }
 
@@ -70,6 +73,7 @@ public class WishListStepdefs extends ParentClass {
     public void userClicksLogoutAtRightside() {
         clickTo(wishLP.eLogout);
     }
+
     @Given("user is at the login page")
     public void userIsAtTheLoginPage() {
     }
@@ -88,7 +92,6 @@ public class WishListStepdefs extends ParentClass {
     public void userClicksButtonForAddingProductToWishlist() {
         clickTo(wishLP.eWishListButton2);
     }
-
 
 
     @When("user hover at desktop at menubar and clicks all desktops")
@@ -123,7 +126,26 @@ public class WishListStepdefs extends ParentClass {
         scroll(wishLP.eScrollToMac);
     }
 
+    @And("user enters username and password to login")
+    public void userEntersUsernameAndPasswordToLogin(DataTable table) {
+        List<String> list = table.asList(String.class);
 
+        sleep(2000);
+        sendKeysTo(wishLP.eEmil, list.get(0));
+        sleep(2000);
+        sendKeysTo(wishLP.ePassword, list.get(1));
+        wishLP.eLoginButton.click();
 
+    }
 
+    @Then("close browser")
+    public void closeBrowser() {
+        Driver.quitDriver();
+    }
+
+    @And("user clicks on Add to Wish List in the Search Results Page")
+    public void userClicksOnAddToWishListInTheSearchResultsPage() {
+        clickTo(wishLP.eWishListButton);
+        productN = wishLP.eProduct.getText();
+    }
 }
